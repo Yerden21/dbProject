@@ -31,17 +31,19 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Categories
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <!-- All categories -->
-
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                          </div>
+                    {{--  --}}
+                    <ul class="navbar-nav mr-auto">
+                        <form action="/search" method="POST" role="search">
+                            @csrf
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="q"
+                                    placeholder="Search discussions"> <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">
+                                        <img src="https://image.flaticon.com/icons/png/128/34/34202.png" width="20" height="20" alt="">
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -57,14 +59,19 @@
                                 </li>
                             @endif
                         @else
+                            @if (Auth::user()->is_admin)
+                                <li class="nav-item">
+                                    <a class="nav-link btn btn-warning" href="{{ route('admin') }}">Admin page</a>
+                                </li>
+                            @endif
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('addDiscussion') }}">Do you wanna ask something?</a>
+                                <a class="nav-link btn btn-primary" href="{{ route('addDiscussion') }}">Do you wanna ask something?</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-
+                                
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
